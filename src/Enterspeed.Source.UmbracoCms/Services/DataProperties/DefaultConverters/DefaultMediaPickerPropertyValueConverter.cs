@@ -50,7 +50,7 @@ namespace Enterspeed.Source.UmbracoCms.Services.DataProperties.DefaultConverters
             return new ArrayEnterspeedProperty(property.Alias, arrayItems.ToArray());
         }
 
-        private ObjectEnterspeedProperty ConvertToEnterspeedProperty(IPublishedContent media)
+        protected virtual ObjectEnterspeedProperty ConvertToEnterspeedProperty(IPublishedContent media)
         {
             if (media == null)
             {
@@ -60,8 +60,13 @@ namespace Enterspeed.Source.UmbracoCms.Services.DataProperties.DefaultConverters
             var properties = new Dictionary<string, IEnterspeedProperty>();
             properties.Add("id", new NumberEnterspeedProperty(media.Id));
             properties.Add("url", new StringEnterspeedProperty(_mediaUrlProvider.GetUrl(media)));
+            AddCustomProperties(media, properties);
 
             return new ObjectEnterspeedProperty(properties);
+        }
+
+        protected virtual void AddCustomProperties(IPublishedContent media, Dictionary<string, IEnterspeedProperty> properties)
+        {
         }
     }
 }
